@@ -4,7 +4,8 @@
  */
 
 var assert = require('assert')
-  , http = require('http');
+  , http = require('http')
+  , sys = require('sys');
 
 module.exports = assert;
 
@@ -17,8 +18,8 @@ assert.response = function(app, req, res){
 
 function fail(title, expected, actual) {
   console.error('\n\n  \033[31m%s\033[0m', title);
-  console.error('    \033[90mExpected:\033[0m %s', expected);
-  console.error('    \033[90mGot:\033[0m %s\n', actual);
+  console.error('    \033[90mExpected:\033[0m %s', sys.inspect(expected));
+  console.error('    \033[90mGot:\033[0m %s\n', sys.inspect(actual));
   process.exit(1);
 }
 
