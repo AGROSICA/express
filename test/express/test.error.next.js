@@ -13,6 +13,10 @@ app.get('/throw', function(req, res, next){
   throw new Error('keyboard cat');
 });
 
+app.get('/next', function(req, res, next){
+  next(new Error('oh noes'));
+});
+
 assert.response(app,
-  { url: '/throw' },
-  { body: '', status: 500 });
+  { url: '/next' },
+  { body: /^Error: oh noes/, status: 500 });
