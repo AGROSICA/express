@@ -51,7 +51,19 @@ function assertResponse(app, req, res) {
     response.on('end', function(){
 
       // response body
-      if (null != res.body) assertResponseBody(res.body, response.body);
+      if (null != res.body) {
+        assertResponseBody(res.body, response.body);
+      }
+
+      // response status
+      if ('number' == typeof res.status) {
+        assertResponseStatus(res.status, response.statusCode);
+      }
+
+      // response header fields
+      if (res.headers) {
+        assertResponseHeader(res.headers, response.headers);
+      }
 
       --app.pending || app.close();
     });
@@ -60,9 +72,27 @@ function assertResponse(app, req, res) {
   request.end();
 }
 
+function assertResponseHeader(expected, actual) {
+  Object.keys(expected).forEach(function(field){
+    var actualVal = actual[field.toLowerCase()]
+      , expectedVal = expected[field]
+      , ok = expectedVal instanceof RegExp
+        ? expectedVal.test(actualVal)
+        : expectedVal == actual;
+    if (ok) return;
+    fail('Invalid response header field ' + field, expectedVal, actualVal);
+  });
+}
+
 function assertResponseBody(expected, actual) {
   var ok = expected instanceof RegExp
     ? expected.test(actual)
     : expected === actual;
-  if (!ok) fail('Invalid response body.', expected, actual);
+  if (ok) return;
+  fail('Invalid response body.', expected, actual);
+}
+
+function assertResponseStatus(expected, actual) {
+  if (expected == actual) return;
+  fail('Invalid response status.', expected, actual);
 }
