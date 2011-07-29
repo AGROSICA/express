@@ -17,6 +17,14 @@ app.get('/next', function(req, res, next){
   next(new Error('oh noes'));
 });
 
+app.use(function(err, req, res, next){
+  res.send(err.message, 500);
+});
+
+assert.response(app,
+  { url: '/throw' },
+  { body: 'keyboard cat', status: 500 });
+
 assert.response(app,
   { url: '/next' },
-  { body: /^Error: oh noes/, status: 500 });
+  { body: 'oh noes', status: 500 });
