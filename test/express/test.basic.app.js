@@ -11,7 +11,7 @@ var express = require('../../')
 var app = express.createServer();
 
 app.get('/', function(req, res){
-  app.set('env').should.equal('development');
+  app.set('env').should.equal('test');
   res.writeHead(200, {});
   res.end('wahoo');
 });
