@@ -21,71 +21,7 @@ module.exports = {
   },
   
   'test basic server': function(){
-    var server = express.createServer();
 
-    server.get('/', function(req, res){
-      server.set('env').should.equal('test');
-      res.writeHead(200, {});
-      res.end('wahoo');
-    });
-
-    server.put('/user/:id', function(req, res){
-      res.writeHead(200, {});
-      res.end('updated user ' + req.params.id)
-    });
-
-    server.del('/something', function(req, res){
-      res.send('Destroyed');
-    });
-
-    server.delete('/something/else', function(req, res){
-      res.send('Destroyed');
-    });
-    
-    server.all('/staff/:id', function(req, res, next){
-      req.staff = { id: req.params.id };
-      next();
-    });
-
-    server.get('/staff/:id', function(req, res){
-      res.send('GET Staff ' + req.staff.id);
-    });
-    
-    server.post('/staff/:id', function(req, res){
-      res.send('POST Staff ' + req.staff.id);
-    });
-    
-    server.all('*', function(req, res){
-      res.send('requested ' + req.url);
-    });
-
-    assert.response(server,
-      { url: '/' },
-      { body: 'wahoo' });
-    
-    assert.response(server,
-      { url: '/user/12', method: 'PUT' },
-      { body: 'updated user 12' });
-
-    assert.response(server,
-      { url: '/something', method: 'DELETE' },
-      { body: 'Destroyed' });
-
-    assert.response(server,
-      { url: '/something/else', method: 'DELETE' },
-      { body: 'Destroyed' });
-
-    assert.response(server,
-      { url: '/staff/12' },
-      { body: 'GET Staff 12' });
-    
-    assert.response(server,
-      { url: '/staff/12', method: 'POST' },
-      { body: 'POST Staff 12' });
-    
-    assert.response(server,
-      { url: '/foo/bar/baz', method: 'DELETE' },
-      { body: 'requested /foo/bar/baz' });
   },
   
   'test constructor middleware': function(beforeExit){
