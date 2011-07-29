@@ -6,7 +6,8 @@
 
 var express = require('../../')
   , connect = require('connect')
-  , should = require('should');
+  , should = require('should')
+  , assert = require('../assert');
 
 var app = express.createServer();
 
@@ -46,30 +47,30 @@ app.all('*', function(req, res){
   res.send('requested ' + req.url);
 });
 
-assert.response(server,
+assert.response(app,
   { url: '/' },
   { body: 'wahoo' });
 
-assert.response(server,
+assert.response(app,
   { url: '/user/12', method: 'PUT' },
   { body: 'updated user 12' });
 
-assert.response(server,
+assert.response(app,
   { url: '/something', method: 'DELETE' },
   { body: 'Destroyed' });
 
-assert.response(server,
+assert.response(app,
   { url: '/something/else', method: 'DELETE' },
   { body: 'Destroyed' });
 
-assert.response(server,
+assert.response(app,
   { url: '/staff/12' },
   { body: 'GET Staff 12' });
 
-assert.response(server,
+assert.response(app,
   { url: '/staff/12', method: 'POST' },
   { body: 'POST Staff 12' });
 
-assert.response(server,
+assert.response(app,
   { url: '/foo/bar/baz', method: 'DELETE' },
   { body: 'requested /foo/bar/baz' });
