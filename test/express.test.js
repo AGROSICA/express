@@ -10,57 +10,6 @@ var express = require('express')
   , Route = express.Route;
 
 module.exports = {
-  'test createServer() precedence': function(){
-    var app = express.createServer(function(req, res){
-      res.send(req.query.bar);
-    });
-    
-    assert.response(app,
-      { url: '/foo?bar=baz' },
-      { body: 'baz' });
-  },
-  
-  'test next()': function(){
-    var app = express.createServer();
-    
-    app.get('/user.:format?', function(req, res, next){
-      switch (req.params.format) {
-        case 'json':
-          res.writeHead(200, {});
-          res.end('some json');
-          break;
-        default:
-          next();
-      }
-    });
-    
-    app.get('/user', function(req, res){
-      res.writeHead(200, {});
-      res.end('no json :)');
-    });
-    
-    assert.response(app,
-      { url: '/user.json' },
-      { body: 'some json' });
-    
-    assert.response(app,
-      { url: '/user' },
-      { body: 'no json :)' });
-  },
-  
-  'test #use()': function(){
-    var app = express.createServer();
-
-    app.get('/users', function(req, res, next){
-      next(new Error('fail!!'));
-    });
-    app.use('/', connect.errorHandler({ showMessage: true }));
-      
-    assert.response(app,
-      { url: '/users' },
-      { body: 'Error: fail!!' });
-  },
-  
   'test #configure()': function(beforeExit){
     var calls = [];
     var server = express.createServer();

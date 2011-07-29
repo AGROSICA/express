@@ -1,9 +1,11 @@
 #!/bin/sh
 
+export NODE_ENV=test
+
 echo
 for file in $@; do
   printf "\033[90m   ${file#test/}\033[0m "
-  NODE_ENV=test node $file && echo "\033[36m✓\033[0m"
+  node $file && echo "\033[36m✓\033[0m"
   test $? -eq 0 || exit $?
 done
 echo
