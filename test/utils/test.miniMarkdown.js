@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var utils = require('../lib/utils')
+var utils = require('../../lib/utils')
   , should = require('should');
 
 utils.miniMarkdown('_foo_').should.equal('<em>foo</em>');

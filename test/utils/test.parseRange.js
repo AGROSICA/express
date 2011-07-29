@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var utils = require('../lib/utils')
+var utils = require('../../lib/utils')
   , should = require('should');
 
 utils.parseRange(1000, 'bytes=0-499').should.eql([{ start: 0, end: 499 }]);
