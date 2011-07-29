@@ -20,38 +20,6 @@ module.exports = {
       { body: 'baz' });
   },
   
-  'test basic server': function(){
-
-  },
-  
-  'test constructor middleware': function(beforeExit){
-      var calls = [];
-
-      function one(req, res, next){
-        calls.push('one');
-        next();
-      }
-
-      function two(req, res, next){
-        calls.push('two');
-        next();
-      }
-
-      var app = express.createServer(one, two);
-      app.get('/', function(req, res){
-        res.writeHead(200, {});
-        res.end('foo bar');
-      });
-      
-      assert.response(app,
-        { url: '/' },
-        { body: 'foo bar' });
-      
-      beforeExit(function(){
-        calls.should.eql(['one', 'two']);
-      });
-  },
-
   'test next()': function(){
     var app = express.createServer();
     
