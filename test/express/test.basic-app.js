@@ -59,18 +59,18 @@ assert.response(app,
   { url: '/something', method: 'DELETE' },
   { body: 'Destroyed' });
 
-assert.response(app,
-  { url: '/something/else', method: 'DELETE' },
-  { body: 'Destroyed' });
-
-assert.response(app,
-  { url: '/staff/12' },
-  { body: 'GET Staff 12' });
-
-assert.response(app,
-  { url: '/staff/12', method: 'POST' },
-  { body: 'POST Staff 12' });
-
-assert.response(app,
-  { url: '/foo/bar/baz', method: 'DELETE' },
-  { body: 'requested /foo/bar/baz' });
+// assert.response(app,
+//   { url: '/something/else', method: 'DELETE' },
+//   { body: 'Destroyed' });
+// 
+// assert.response(app,
+//   { url: '/staff/12' },
+//   { body: 'GET Staff 12' });
+// 
+// assert.response(app,
+//   { url: '/staff/12', method: 'POST' },
+//   { body: 'POST Staff 12' });
+// 
+// assert.response(app,
+//   { url: '/foo/bar/baz', method: 'DELETE' },
+//   { body: 'requested /foo/bar/baz' });
