@@ -7,7 +7,7 @@ var express = require('../../')
   , connect = require('connect')
   , assert = require('../assert');
 
-var apdp = express.createServer();
+var app = express.createServer();
 
 app.get('/user', function(req, res, next){
   req.hits = ['/user'];
