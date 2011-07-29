@@ -49,7 +49,7 @@ app.all('*', function(req, res){
 
 assert.response(app,
   { url: '/' },
-  { body: 'wahoos' });
+  { body: 'wahoo' });
 
 // assert.response(app,
 //   { url: '/user/12', method: 'PUT' },

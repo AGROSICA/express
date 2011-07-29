@@ -10,7 +10,12 @@ var assert = require('assert')
 module.exports = assert;
 
 assert.response = function(app, req, res){
-  if (app.fd) return assertResponse(app, req, res);
+  if (app.fd) {
+    ++app.pending;
+    return assertResponse(app, req, res);
+  }
+
+  app.pending = 1;
   app.listen(0, function(){
     assertResponse(app, req, res);
   });
@@ -47,6 +52,8 @@ function assertResponse(app, req, res) {
 
       // response body
       if (null != res.body) assertResponseBody(res.body, response.body);
+
+      --app.pending || app.close();
     });
   });
 
