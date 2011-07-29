@@ -16,7 +16,10 @@ assert.response = function(app, req, res){
 };
 
 function fail(title, expected, actual) {
-  console.log(' %s\n    Expected: %s\n    Got: %s', title, expected, actual);
+  console.error('\n\n  \033[31m%s\033[0m', title);
+  console.error('    \033[90mExpected:\033[0m %s', expected);
+  console.error('    \033[90mGot:\033[0m %s\n', actual);
+  process.exit(1);
 }
 
 function assertResponse(app, req, res) {
@@ -40,26 +43,18 @@ function assertResponse(app, req, res) {
     response.setEncoding('utf8');
     response.on('data', function(chunk){ response.body += chunk; });
     response.on('end', function(){
+
       // response body
-      if (null !== res.body) {
-        var ok = res.body instanceof RegExp
-          ? res.body.test(response.body)
-          : res.body === response.body;
-        if (!ok) fail('Invalid response body.', res.body, response.body);
-      }
-      // Assert response body
-      if (res.body !== undefined) {
-          var eql = res.body instanceof RegExp
-            ? res.body.test(response.body)
-            : res.body === response.body;
-          assert.ok(
-              eql,
-              msg + 'Invalid response body.\n'
-                  + '    Expected: ' + sys.inspect(res.body) + '\n'
-                  + '    Got: ' + sys.inspect(response.body)
-          );
-      }
+      if (null != res.body) assertResponseBody(res.body, response.body);
     });
   });
+
+  request.end();
 }
 
+function assertResponseBody(expected, actual) {
+  var ok = expected instanceof RegExp
+    ? expected.test(actual)
+    : expected === actual;
+  if (!ok) fail('Invalid response body.', expected, actual);
+}

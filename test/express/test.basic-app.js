@@ -12,7 +12,7 @@ var express = require('../../')
 var app = express.createServer();
 
 app.get('/', function(req, res){
-  app.set('env').should.equal('test');
+  app.set('env').should.equal('development');
   res.writeHead(200, {});
   res.end('wahoo');
 });
@@ -49,15 +49,15 @@ app.all('*', function(req, res){
 
 assert.response(app,
   { url: '/' },
-  { body: 'wahoo' });
+  { body: 'wahoos' });
 
-assert.response(app,
-  { url: '/user/12', method: 'PUT' },
-  { body: 'updated user 12' });
-
-assert.response(app,
-  { url: '/something', method: 'DELETE' },
-  { body: 'Destroyed' });
+// assert.response(app,
+//   { url: '/user/12', method: 'PUT' },
+//   { body: 'updated user 12' });
+// 
+// assert.response(app,
+//   { url: '/something', method: 'DELETE' },
+//   { body: 'Destroyed' });
 
 // assert.response(app,
 //   { url: '/something/else', method: 'DELETE' },
